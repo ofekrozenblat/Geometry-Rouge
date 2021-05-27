@@ -1,0 +1,6 @@
+#myCanvas {
+    border-style: solid;
+    border-color: black;
+    background: #eee; 
+    display: block;
+}
