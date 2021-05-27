@@ -9,7 +9,7 @@ import {isExclusiveIntervals} from "/Utilities/math.js";
 export function ProjectileFriendly(posX, posY, angle){
     // Dimensions
     this.width = 2;
-    this.height = 15;
+    this.height = 5;
 
     // Center point of the projectile
     this.posX = posX;
