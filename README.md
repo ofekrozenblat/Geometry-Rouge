@@ -1,2 +1,8 @@
 # Geometry-Rouge
- Simple JavaScript Game
+JavaScript game using HTML5 canvas
+
+## Controls
+- W to move forward
+- A to rotate counter-clockwise
+- D to rotate clockwise
+- F to fire
