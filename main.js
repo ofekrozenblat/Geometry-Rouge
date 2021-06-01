@@ -24,9 +24,6 @@ var player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
 // Key map
 var keyMap = {};
 
-// Keeps track if player is allowed to fire
-var allowedToFire = true;
-
 // -------- Gameloop variables --------
 var running = false;
 // -----------------------------------
@@ -47,7 +44,7 @@ function init(){
     keyMap[83] = false; // S
     keyMap[65] = false; // A
     keyMap[68] = false; // D
-    keyMap[70] = false; // F
+    keyMap[32] = false; // SPACE
 
     // Start the gameloop
     window.requestAnimationFrame(gameLoop);
@@ -69,7 +66,10 @@ function keyUpHandler(e){
 function checkKeyMap(){
     // W
     if(keyMap[87]){
+        player.isMoving = true;
         player.moveForward();
+    }else{
+        player.isMoving = false;
     }
 
     // S
@@ -87,8 +87,8 @@ function checkKeyMap(){
         player.rotate(0.1);
     }
 
-    // F - to Fire
-    if(keyMap[70]){
+    // SPACE - to Fire
+    if(keyMap[32]){
         if(running){
             player.fire();
         }

@@ -75,6 +75,8 @@ function update(){
 
 }
 
+// ----------- Text Configurations -----------
+
 /**
  * Sets the text of the string
  * @param {string} textString 

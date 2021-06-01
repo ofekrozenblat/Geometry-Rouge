@@ -12,8 +12,8 @@ var numOfFriendlyProjectiles = 0; // True number of friendlyProjectiles
  * @param {number} posY 
  * @param {number} angle 
  */
-export function addFriendlyProjectile(posX, posY, angle){
-    numOfFriendlyProjectiles = friendlyProjectiles.push(new ProjectileFriendly(posX, posY, angle));
+export function addFriendlyProjectile(posX, posY, angle, speed){
+    numOfFriendlyProjectiles = friendlyProjectiles.push(new ProjectileFriendly(posX, posY, angle, speed));
 }
 
 /**
@@ -24,8 +24,8 @@ export function draw(canvasContext){
     var projectiles = getFriendlyProjectiles();
 
     // ------- FOR TESTING ----------
-    canvasContext.fillStyle = "black";
-    canvasContext.fillText("[Debug] Projectiles: " + projectiles.length, 450, 60);
+    // canvasContext.fillStyle = "black";
+    // canvasContext.fillText("[Debug] Projectiles: " + projectiles.length, 450, 60);
     // ------------------------------
 
     var i;

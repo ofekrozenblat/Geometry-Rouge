@@ -1,4 +1,5 @@
 import * as ProjectileControl from "../Controllers/projectile-control.js";
+import {getCanvasWdith, getCanvasHeight} from "../main.js";
 
 // -----------------------------------------
 // ----------- Player Object (Class) -------
@@ -35,6 +36,9 @@ export function Player(posX, posY){
      */
     this.rangeAttackSpeed = 100;
     this.allowedToFire = true;
+
+    // If the player is moving
+    this.isMoving = false;
 }
 
 Player.prototype.draw = draw;
@@ -98,10 +102,20 @@ function rotate(angle){
 }
 
 function moveForward(){
+    var CANVAS_WIDTH = getCanvasWdith();
+    var CANVAS_HEIGHT = getCanvasHeight(); 
+
     var cos = Math.cos(Math.PI/2-this.angle);
     var sin = Math.sin(Math.PI/2-this.angle);
-    this.posX += cos*this.speed;
-    this.posY -= sin*this.speed; // (Subtracting since going up reduces the y value in this coordinate system)
+
+    var tempX = this.posX + cos*this.speed;
+    var tempY = this.posY - sin*this.speed; // (Subtracting since going up reduces the y value in this coordinate system)
+
+    // If Player does not go out of the screen, then continue to move the player
+    if(!(this.getTopX() < 0 || this.getTopX() > CANVAS_WIDTH || this.getTopY() < 0 || this.getTopY() > CANVAS_HEIGHT)){
+        this.posX = tempX;
+        this.posY = tempY;
+    }
 }
 
 /**
@@ -110,7 +124,9 @@ function moveForward(){
 function fire(){
     if (!this.allowedToFire) return;
     
-    ProjectileControl.addFriendlyProjectile(this.getTopX(), this.getTopY(), this.angle);
+    var projSpeed = 1;
+
+    ProjectileControl.addFriendlyProjectile(this.getTopX(), this.getTopY(), this.angle, projSpeed);
     this.allowedToFire = false;
 
     // Create the reset function with the parameter as the player object

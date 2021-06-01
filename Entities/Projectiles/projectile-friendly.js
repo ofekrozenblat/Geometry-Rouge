@@ -6,7 +6,7 @@ import {isExclusiveIntervals} from "/Utilities/math.js";
 // ----------- Enemy Circle Class ----------
 // -----------------------------------------
 
-export function ProjectileFriendly(posX, posY, angle){
+export function ProjectileFriendly(posX, posY, angle, speed){
     // Dimensions
     this.width = 2;
     this.height = 5;
@@ -16,7 +16,7 @@ export function ProjectileFriendly(posX, posY, angle){
     this.posY = posY;
 
     // Speed of the projectile
-    this.speed = 1;
+    this.speed = speed;
 
     // Angle of projectile
     this.angle = angle;

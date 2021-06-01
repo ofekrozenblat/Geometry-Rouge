@@ -35,8 +35,8 @@ export function Button(posX, posY, buttonWidth, buttonHeight, buttonText, onClic
     this.posY = posY;
 
     // Drawing properties
-    this.colour = "black";
-    this.defaultColour = this.colour;
+    this.defaultColour = "black";
+    this.colour = this.defaultColour;
     this.hoverColour = "blue";
     this.opacity = 1.0;
 
@@ -65,6 +65,14 @@ Button.prototype.update = update;
 Button.prototype.mouseClicked = mouseClicked;
 Button.prototype.checkMouseHover = checkMouseHover;
 Button.prototype.drawBorder = drawBorder;
+
+Button.prototype.setColour = setColour;
+Button.prototype.setHoverColour = setHoverColour;
+Button.prototype.setBorderColour = setBorderColour;
+Button.prototype.setBorderVisibility = setBorderVisibility;
+Button.prototype.setText = setText;
+Button.prototype.setTextSize = setTextSize;
+Button.prototype.setTextColour = setTextColour;
 
 // ----------- Functions of object (Class) -----------
 function draw(canvasContext){
@@ -140,3 +148,62 @@ function mouseClicked(e){
         this.onClick();
     }
 }
+
+// ----------- Button Configurations -----------
+
+/**
+ * Sets the button's colour
+ * @param {string} colour 
+ */
+function setColour(colour){
+    this.colour = colour;
+}
+
+/**
+ * Sets the button's colour when it is being hovered by the mouse
+ * @param {string} colour 
+ */
+ function setHoverColour(hoverColour){
+    this.hoverColour = hoverColour;
+}
+
+/**
+ * Sets the button's border colour
+ * @param {string} colour 
+ */
+ function setBorderColour(colour){
+    this.borderColour = borderColour;
+}
+
+/**
+ * Sets the visibility of the button's border
+ * @param {boolean} colour 
+ */
+ function setBorderVisibility(visibility){
+    this.showBorder = visibility;
+}
+
+/**
+ * Sets the button's text
+ * @param {string} text 
+ */
+function setText(text){
+    this.textString = text;
+}
+
+/**
+ * Sets the button's text size in pixles
+ * @param {number} text 
+ */
+ function setTextSize(size){
+    this.textSize = size;
+}
+
+/**
+ * Sets the button's text colour
+ * @param {string} textColour 
+ */
+ function setTextColour(textColour){
+    this.textColour = textColour;
+}
+

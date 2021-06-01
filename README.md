@@ -5,4 +5,4 @@ JavaScript game using HTML5 canvas
 - W to move forward
 - A to rotate counter-clockwise
 - D to rotate clockwise
-- F to fire
+- SPACE to fire
