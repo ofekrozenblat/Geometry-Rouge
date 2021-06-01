@@ -1,3 +1,5 @@
+import * as ProjectileControl from "../Controllers/projectile-control.js";
+
 // -----------------------------------------
 // ----------- Player Object (Class) -------
 // -----------------------------------------
@@ -27,6 +29,12 @@ export function Player(posX, posY){
      * Attack speed in ms
      */
     this.meeleAttackSpeed = 1000;
+
+    /**
+     * Range attack speed in ms
+     */
+    this.rangeAttackSpeed = 100;
+    this.allowedToFire = true;
 }
 
 Player.prototype.draw = draw;
@@ -34,6 +42,7 @@ Player.prototype.update = update;
 Player.prototype.updateHitBox = updateHitBox;
 Player.prototype.rotate = rotate;
 Player.prototype.moveForward = moveForward;
+Player.prototype.fire = fire;
 Player.prototype.getHitBoxLeftX = getHitBoxLeftX;
 Player.prototype.getHitBoxRightX = getHitBoxRightX;
 Player.prototype.getHitBoxTopY = getHitBoxTopY;
@@ -95,6 +104,22 @@ function moveForward(){
     this.posY -= sin*this.speed; // (Subtracting since going up reduces the y value in this coordinate system)
 }
 
+/**
+ * Player fires a projectile
+ */
+function fire(){
+    if (!this.allowedToFire) return;
+    
+    ProjectileControl.addFriendlyProjectile(this.getTopX(), this.getTopY(), this.angle);
+    this.allowedToFire = false;
+
+    // Create the reset function with the parameter as the player object
+    // Then after giving the setTimeout function the timeout in ms
+    // pass in the parameter for the function which is 'this' (i.e. the player object)
+    setTimeout(function resetRangeAttack(player){
+        player.allowedToFire = true;
+    }, this.rangeAttackSpeed, this)
+}
 
 // ----------- Access Player HitBox -----------
 function getHitBoxLeftX(){

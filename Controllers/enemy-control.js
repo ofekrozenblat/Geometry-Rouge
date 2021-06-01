@@ -3,7 +3,7 @@ import {isExclusiveIntervals} from "/Utilities/math.js";
 import { Player } from "../Entities/player.js";
 
 // Attributes
-var enemies = {};
+var enemies = [];
 var numOfEnemies = 0;
 
 /**
@@ -13,8 +13,7 @@ var numOfEnemies = 0;
  * @param {number} radius 
  */
 export function addEnemyCircle(posX, posY, radius){
-    enemies[numOfEnemies] = new EnemyCircle(posX, posY, radius);
-    numOfEnemies++;
+    numOfEnemies = enemies.push(new EnemyCircle(posX, posY, radius));
 }
 
 /**
@@ -69,12 +68,11 @@ export function spawn(){
 function removeDestroyedEnemies(){
     var i;
     var j = 0;
-    var tempEnemies = {};
+    var tempEnemies = [];
 
     for(i = 0; i < numOfEnemies; i++){
         if(!enemies[i].isDestroyed){
-            tempEnemies[j] = enemies[i];
-            j++;
+            j = tempEnemies.push(enemies[i]);
         }
     }
     numOfEnemies = j;

@@ -39,7 +39,7 @@ export function WindowView(windowWidth, windowHeight, canvasWidth, canvasHeight)
     this.borderOpacity = 1.0;
 
     // Components within the window
-    this.components = {};
+    this.components = [];
     this.numOfComponents = 0;
 
     // Window properties
@@ -104,8 +104,7 @@ function addComponent(component){
     component.posY += this.posY;
 
     // Add the component
-    this.components[this.numOfComponents] = component;
-    this.numOfComponents++;
+    this.numOfComponents = this.components.push(component);
 }
 
 /**

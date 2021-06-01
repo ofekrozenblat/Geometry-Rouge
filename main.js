@@ -24,6 +24,9 @@ var player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
 // Key map
 var keyMap = {};
 
+// Keeps track if player is allowed to fire
+var allowedToFire = true;
+
 // -------- Gameloop variables --------
 var running = false;
 // -----------------------------------
@@ -87,7 +90,7 @@ function checkKeyMap(){
     // F - to Fire
     if(keyMap[70]){
         if(running){
-            ProjectileControl.addFriendlyProjectile(player.getTopX(), player.getTopY(), player.angle);
+            player.fire();
         }
     }
 }

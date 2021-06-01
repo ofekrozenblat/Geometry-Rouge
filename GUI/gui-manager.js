@@ -9,7 +9,7 @@ var CANVAS_WIDTH = 0;
 var CANVAS_HEIGHT = 0;
 
 // Attributes
-var components = {};
+var components = [];
 var numOfComponents = 0;
 
 /**
@@ -25,8 +25,7 @@ export function createGUI(){
 }
 
 function addGUIComponent(component){
-    components[numOfComponents] = component;
-    numOfComponents++;
+    numOfComponents = components.push(component);
 }
 
 export function draw(canvasContext){

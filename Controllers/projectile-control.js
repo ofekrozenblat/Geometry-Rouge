@@ -3,8 +3,8 @@ import {ProjectileFriendly} from "../Entities/Projectiles/projectile-friendly.js
 import {getCanvasWdith, getCanvasHeight} from "../main.js";
 
 // Attributes
-var friendlyProjectiles = {};
-var numOfFriendlyProjectiles = 0;
+var friendlyProjectiles = [];
+var numOfFriendlyProjectiles = 0; // True number of friendlyProjectiles
 
 /**
  * Adds a friendly projectile at position (`posX`, `posY`) with `angle`
@@ -13,8 +13,7 @@ var numOfFriendlyProjectiles = 0;
  * @param {number} angle 
  */
 export function addFriendlyProjectile(posX, posY, angle){
-    friendlyProjectiles[numOfFriendlyProjectiles] = new ProjectileFriendly(posX, posY, angle);
-    numOfFriendlyProjectiles++;
+    numOfFriendlyProjectiles = friendlyProjectiles.push(new ProjectileFriendly(posX, posY, angle));
 }
 
 /**
@@ -22,10 +21,16 @@ export function addFriendlyProjectile(posX, posY, angle){
  * @param {*} canvasContext 
  */
 export function draw(canvasContext){
-    var i;
+    var projectiles = getFriendlyProjectiles();
 
-    for(i = 0; i < numOfFriendlyProjectiles; i++){
-        friendlyProjectiles[i].draw(canvasContext);
+    // ------- FOR TESTING ----------
+    canvasContext.fillStyle = "black";
+    canvasContext.fillText("[Debug] Projectiles: " + projectiles.length, 450, 60);
+    // ------------------------------
+
+    var i;
+    for(i = 0; i < projectiles.length; i++){
+        projectiles[i].draw(canvasContext);
     }
 }
 
@@ -36,27 +41,32 @@ export function update(){
     checkOutOfBoundProjectiles();
     removeDestroyedProjectiles();
 
-    var i;
+    var projectiles = getFriendlyProjectiles();
 
-    for(i = 0; i < numOfFriendlyProjectiles; i++){
-        friendlyProjectiles[i].update();
+    var i;
+    for(i = 0; i < projectiles.length; i++){
+        projectiles[i].update();
     }
 }
 
 /**
  * Gets the reference to the friendly projectile data structure
+ * (Only includes projectiles which are not destroyed or out of bounds)
  * @returns friendly projectiles vector
  */
 export function getFriendlyProjectiles(){
-    return friendlyProjectiles;
-}
+    checkOutOfBoundProjectiles(); // Check out of bounds (additional update)
 
-/**
- * Gets the number of friendly projectiles
- * @returns number of friendly projectiles
- */
-export function getNumberOfFriendlyProjectiles(){
-    return numOfFriendlyProjectiles;
+    var i;
+    var tempFriendlyProjectiles = [];
+
+    for(i = 0; i < numOfFriendlyProjectiles; i++){
+        if(!friendlyProjectiles[i].isDestroyed){
+            tempFriendlyProjectiles.push(friendlyProjectiles[i]);
+        }
+    }
+
+    return tempFriendlyProjectiles;
 }
 
 /**
@@ -85,12 +95,11 @@ function removeDestroyedProjectiles(){
     // Remove friendly projectiles
     var i;
     var j = 0;
-    var tempFriendlyProjectiles = {};
+    var tempFriendlyProjectiles = [];
 
     for(i = 0; i < numOfFriendlyProjectiles; i++){
         if(!friendlyProjectiles[i].isDestroyed){
-            tempFriendlyProjectiles[j] = friendlyProjectiles[i];
-            j++;
+            j = tempFriendlyProjectiles.push(friendlyProjectiles[i]);
         }
     }
     numOfFriendlyProjectiles = j;
