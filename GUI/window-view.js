@@ -40,7 +40,6 @@ export function WindowView(windowWidth, windowHeight, canvasWidth, canvasHeight)
 
     // Components within the window
     this.components = [];
-    this.numOfComponents = 0;
 
     // Window properties
     this.visible = false;
@@ -66,7 +65,7 @@ function draw(canvasContext){
 
     // Draw the components (order matters --> draw components after drawing window-view)
     var i;
-    for(i = 0; i < this.numOfComponents; i++){
+    for(i = 0; i < this.components.length; i++){
         this.components[i].draw(canvasContext);
     }
 
@@ -89,7 +88,7 @@ function update(){
     
     // Update all the components
     var i;
-    for(i = 0; i < this.numOfComponents; i++){
+    for(i = 0; i < this.components.length; i++){
         this.components[i].update();
     }
 }
@@ -104,7 +103,7 @@ function addComponent(component){
     component.posY += this.posY;
 
     // Add the component
-    this.numOfComponents = this.components.push(component);
+    this.components.push(component);
 }
 
 /**

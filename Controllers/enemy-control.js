@@ -4,7 +4,6 @@ import { Player } from "../Entities/player.js";
 
 // Attributes
 var enemies = [];
-var numOfEnemies = 0;
 
 /**
  * Adds an EnemyCircle at position (`posX`, `posY`) with `radius`
@@ -13,7 +12,7 @@ var numOfEnemies = 0;
  * @param {number} radius 
  */
 export function addEnemyCircle(posX, posY, radius){
-    numOfEnemies = enemies.push(new EnemyCircle(posX, posY, radius));
+    enemies.push(new EnemyCircle(posX, posY, radius));
 }
 
 /**
@@ -23,7 +22,7 @@ export function addEnemyCircle(posX, posY, radius){
 export function draw(canvasContext){
     var i;
 
-    for(i = 0; i < numOfEnemies; i++){
+    for(i = 0; i < enemies.length; i++){
         enemies[i].draw(canvasContext);
     }
 }
@@ -37,7 +36,7 @@ export function update(player){
 
     var i;
 
-    for(i = 0; i < numOfEnemies; i++){
+    for(i = 0; i < enemies.length; i++){
         enemies[i].update(player);
     }
 }
@@ -50,16 +49,24 @@ export function getEnemies(){
     return enemies;
 }
 
+export function spawn(){
+    spawnCircleOfEnemies(300, 250, 250, 1, 10);
+}
+
 /**
  * Gets the number of enemies
  * @returns number of enemies
  */
-export function getNumberOfEnemies(){
-    return numOfEnemies;
+ export function getNumberOfEnemies(){
+    return enemies.length;
 }
 
-export function spawn(){
-    spawnCircleOfEnemies(300, 300, 250, 1, 10);
+/**
+ * Resets all enemies in the game
+ * 
+ */
+export function reset(){
+    enemies = [];
 }
 
 /**
@@ -67,15 +74,13 @@ export function spawn(){
  */
 function removeDestroyedEnemies(){
     var i;
-    var j = 0;
     var tempEnemies = [];
 
-    for(i = 0; i < numOfEnemies; i++){
+    for(i = 0; i < enemies.length; i++){
         if(!enemies[i].isDestroyed){
-            j = tempEnemies.push(enemies[i]);
+            tempEnemies.push(enemies[i]);
         }
     }
-    numOfEnemies = j;
     enemies = tempEnemies;
 }
 
@@ -117,7 +122,7 @@ function spawnCircleOfEnemies(centerX, centerY, radius, angleIncrement, enemyCir
  */
 function checkEnemyOccupiedArea(x, y, radius){
     var i;
-    for(i = 0; i < numOfEnemies; i++){
+    for(i = 0; i < enemies.length; i++){
         var enemy = enemies[i];
         // True iff both ranges of x and y of each of the enemy objects are not eclusive (intersect somewhere)
         if (!isExclusiveIntervals(x-radius, x+radius, enemy.hitBoxLeftX, enemy.hitBoxRightX) && 

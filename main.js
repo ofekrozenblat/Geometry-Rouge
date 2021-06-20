@@ -19,10 +19,11 @@ const CANVAS_HEIGHT = canvas.height;
 var oldTimeStamp = 0;
 
 // Player object
-var player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+// Later created during game start
+var player;
 
 // Key map
-var keyMap = {};
+var keyMap = [];
 
 // -------- Gameloop variables --------
 var running = false;
@@ -128,6 +129,10 @@ function update(secondsPassed){
     --> For now I will just assume 60fps constantly
     */
 
+    if(player != null && player.isDestroyed){
+        gameOver();
+    }
+
     // UPDATE everything that is game-related
     if(running){
         checkKeyMap();
@@ -168,7 +173,24 @@ function gameLoop(timeStamp){
 // -----------------------------------------
 
 export function startGame(){
+    player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    EnemeyController.reset();
+    ProjectileControl.reset();
+    WaveControl.reset();
+    
     running = true;
+}
+
+/**
+ * @returns {boolean} True if the game is running, false otherwise.
+ */
+export function isGameRunning(){
+    return running;
+}
+
+function gameOver(){
+    running = false;
+    GUIManager.setGameOverMenuVisible(true);
 }
 
 // -----------------------------------------
@@ -180,17 +202,42 @@ export function startGame(){
 // -----------------------------------------
 
 /**
- * @returns {number} Width of the canvas 
+ * @returns {Player} Player object
+ */
+export function getPlayer(){
+    return player;
+}
+
+/**
+ * @returns {number} Width of the canvas.
  */
 export function getCanvasWdith(){
     return CANVAS_WIDTH;
 }
 
 /**
- * @returns {number} Height of the canvas 
+ * @returns {number} Height of the canvas.
  */
 export function getCanvasHeight(){
     return CANVAS_HEIGHT;
+}
+
+/**
+ * Gets the width of the area where the game is being drawn. 
+ * 
+ * @returns {number} Width of the game area.
+ */
+export function getGameAreaWidth(){
+    return CANVAS_WIDTH;
+}
+
+/**
+ * Gets the height of the area where the game is being drawn. 
+ * 
+ * @returns {number} Height of the game area.
+ */
+export function getGameAreaHeight(){
+    return CANVAS_HEIGHT*0.75;
 }
 
 // -----------------------------------------

@@ -16,6 +16,9 @@ export function EnemyCircle(posX, posY, radius){
     this.isDestroyed = false;
     this.maxHealth = 100;
     this.currentHealth = this.maxHealth;
+    
+    // Damage the enemy applies to the player
+    this.damage = 1;
 
     // Define hitBox
     this.hitBoxLeftX = this.posX-this.radius;

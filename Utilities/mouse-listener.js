@@ -13,8 +13,7 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 document.addEventListener("click", mouseClicked, false);
 
 // Subscribed components
-var subscribers = {};
-var numOfSubs = 0;
+var subscribers = [];
 
 function mouseMoveHandler(e){
     // Update mouse position
@@ -38,7 +37,7 @@ function mouseMoveHandler(e){
 function mouseClicked(e){
     // Trigger the mouseClicked function for all subscribers
     var i;
-    for(i = 0; i < numOfSubs; i++){
+    for(i = 0; i < subscribers.length; i++){
         subscribers[i].mouseClicked(e);
     }   
 }
@@ -53,8 +52,7 @@ export function subscribeMouseClicked(component){
         throw "mouse-listener.js - No mouseClicked() function";
     }
     
-    subscribers[numOfSubs] = component;
-    numOfSubs++;
+    subscribers.push(component);
 }
 
 /**

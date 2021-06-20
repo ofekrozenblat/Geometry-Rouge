@@ -1,5 +1,5 @@
 import * as ProjectileControl from "../Controllers/projectile-control.js";
-import {getCanvasWdith, getCanvasHeight} from "../main.js";
+import {getGameAreaWidth, getGameAreaHeight} from "../main.js";
 
 // -----------------------------------------
 // ----------- Player Object (Class) -------
@@ -10,14 +10,21 @@ export function Player(posX, posY){
     this.width = 25;
     this.height = 35;
 
-    this.speed = 4;
-    this.meeleDamage = 50;
-
     // Define hitBox
     this.hitBoxLeftX = this.posX-this.width/2;
     this.hitBoxRightX = this.posX+this.width/2;
     this.hitBoxTopY = this.posY;
     this.hitBoxBottomY = this.posY+this.height;
+
+    this.speed = 4;
+    this.meeleDamage = 50;
+
+    // Health
+    this.maxHealth = 100;
+    this.currentHealth = this.maxHealth;
+    
+    // Player status
+    this.isDestroyed = false;
 
     // Angle of rotation is in radians
     this.angle = 0;
@@ -45,14 +52,21 @@ Player.prototype.draw = draw;
 Player.prototype.update = update;
 Player.prototype.updateHitBox = updateHitBox;
 Player.prototype.rotate = rotate;
+
 Player.prototype.moveForward = moveForward;
 Player.prototype.fire = fire;
+Player.prototype.applyDamage = applyDamage;
+Player.prototype.destroyPlayer = destroyPlayer;
+
 Player.prototype.getHitBoxLeftX = getHitBoxLeftX;
 Player.prototype.getHitBoxRightX = getHitBoxRightX;
 Player.prototype.getHitBoxTopY = getHitBoxTopY;
 Player.prototype.getHitBoxBottomY = getHitBoxBottomY;
 Player.prototype.getTopX = getTopX;
 Player.prototype.getTopY = getTopY;
+
+Player.prototype.getMaxHealth = getMaxHealth;
+Player.prototype.getCurrentHealth = getCurrentHealth;
 
 function draw(canvasContext){
     canvasContext.fillStyle = "#0095DD";
@@ -102,8 +116,8 @@ function rotate(angle){
 }
 
 function moveForward(){
-    var CANVAS_WIDTH = getCanvasWdith();
-    var CANVAS_HEIGHT = getCanvasHeight(); 
+    var maxWidth = getGameAreaWidth();
+    var maxHeight = getGameAreaHeight(); 
 
     var cos = Math.cos(Math.PI/2-this.angle);
     var sin = Math.sin(Math.PI/2-this.angle);
@@ -112,7 +126,7 @@ function moveForward(){
     var tempY = this.posY - sin*this.speed; // (Subtracting since going up reduces the y value in this coordinate system)
 
     // If Player does not go out of the screen, then continue to move the player
-    if(!(this.getTopX() < 0 || this.getTopX() > CANVAS_WIDTH || this.getTopY() < 0 || this.getTopY() > CANVAS_HEIGHT)){
+    if(!(this.getTopX() < 0 || this.getTopX() > maxWidth || this.getTopY() < 0 || this.getTopY() > maxHeight)){
         this.posX = tempX;
         this.posY = tempY;
     }
@@ -135,6 +149,27 @@ function fire(){
     setTimeout(function resetRangeAttack(player){
         player.allowedToFire = true;
     }, this.rangeAttackSpeed, this)
+}
+
+/**
+ * Applies damage the player
+ * 
+ * @param {number} damage Damage to be applied to the player
+ */
+function applyDamage(damage){
+    this.currentHealth -= damage;
+
+    if (this.currentHealth <= 0){
+        this.destroyPlayer();
+    }
+
+}
+
+/**
+ * Destroys the player
+ */
+function destroyPlayer(){
+    this.isDestroyed = true;
 }
 
 // ----------- Access Player HitBox -----------
@@ -201,4 +236,20 @@ function getTopX(){
     var yPos = (0*sin + (-this.height/2)*cos)+this.posY;
 
     return yPos;
+}
+
+// ---------- Access Player Stats ----------
+
+/**
+ * @returns {number} Player's maximum health
+ */
+function getMaxHealth(){
+    return this.maxHealth;
+}
+
+/**
+ * @returns {number} Player's current health
+ */
+ function getCurrentHealth(){
+    return this.currentHealth;
 }

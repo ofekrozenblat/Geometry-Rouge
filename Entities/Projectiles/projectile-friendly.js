@@ -36,9 +36,8 @@ ProjectileFriendly.prototype.checkEnemyCollision = checkEnemyCollision;
 function checkEnemyCollision(){
     var i;
     var enemies = EnemyController.getEnemies();
-    var numOfEnemies = EnemyController.getNumberOfEnemies();
 
-    for(i = 0; i < numOfEnemies; i++){
+    for(i = 0; i < enemies.length; i++){
         var enemy = enemies[i];
         // True iff both ranges of x and y of each of the enemy objects are not eclusive (intersect somewhere)
         // Note: Here, to pretend like the object move to (posX,posY), subtract its current position from the hitBox and add the temporary positions

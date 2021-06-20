@@ -116,15 +116,17 @@ function checkPlayerCollision(player){
     if (!isExclusiveIntervals(this.hitBoxLeftX, this.hitBoxRightX, player.getHitBoxLeftX(), player.getHitBoxRightX()) && 
         !isExclusiveIntervals(this.hitBoxTopY, this.hitBoxBottomY, player.getHitBoxTopY(), player.getHitBoxBottomY())){
         this.colour = this.hitColour;
-        this.applyDamage(player.meeleDamage);
-        this.hitProtection = true;
-        setTimeout(resetHitProtection, player.meeleAttackSpeed, this);
+        this.destroyEnemy();
+        player.applyDamage(this.damage);
+        
+        /*this.hitProtection = true;
+       setTimeout(resetHitProtection, player.meeleAttackSpeed, this);*/
     }
 }
 
 /**
  * Applies damage to the enemy
- * @param {number} damage Damage to be applies
+ * @param {number} damage Damage to be applied
  */
 function applyDamage(damage){
     this.currentHealth -= damage;
@@ -133,6 +135,7 @@ function applyDamage(damage){
     }
 }
 
+/*
 // Note: This function is being called by setTimeout (object Window)
 // so the enemy instance isn't calling this function so in order
 // to access the correct attributes we need to pass the enemy instance
@@ -140,7 +143,7 @@ function applyDamage(damage){
 function resetHitProtection(enemy){
     enemy.hitProtection = false;
     enemy.colour = enemy.defaultColour;
-}
+}*/
 
 /**
  * Destroys the enemy

@@ -28,6 +28,14 @@ export function update(){
 }
 
 /**
+ * Resets the wave counter and related stats
+ */
+export function reset(){
+    waveNumber = 0;
+    enemiesLeft = 0;
+}
+
+/**
  * Checks the status of the wave and if to spawn a new wave
  */
 function checkWaveStatus(){

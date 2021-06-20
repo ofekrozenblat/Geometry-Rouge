@@ -1,5 +1,5 @@
 import {startGame} from "/main.js";
-import {setStartMenuVisibile} from "./gui-manager.js";
+import * as GUIManager from "./gui-manager.js";
 
 /**
  * Manages all the onClick functions of the buttons
@@ -8,5 +8,10 @@ import {setStartMenuVisibile} from "./gui-manager.js";
 
 export function onClickButtonStart(){
     startGame();
-    setStartMenuVisibile(false);
+    GUIManager.setStartMenuVisibile(false);
+}
+
+export function onClickButtonNewGame(){
+    startGame();
+    GUIManager.setGameOverMenuVisible(false);
 }
