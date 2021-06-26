@@ -118,9 +118,6 @@ function checkPlayerCollision(player){
         this.colour = this.hitColour;
         this.destroyEnemy();
         player.applyDamage(this.damage);
-        
-        /*this.hitProtection = true;
-       setTimeout(resetHitProtection, player.meeleAttackSpeed, this);*/
     }
 }
 
@@ -134,16 +131,6 @@ function applyDamage(damage){
         this.destroyEnemy();
     }
 }
-
-/*
-// Note: This function is being called by setTimeout (object Window)
-// so the enemy instance isn't calling this function so in order
-// to access the correct attributes we need to pass the enemy instance
-// This is like a static function (class bound not instance/object bound)
-function resetHitProtection(enemy){
-    enemy.hitProtection = false;
-    enemy.colour = enemy.defaultColour;
-}*/
 
 /**
  * Destroys the enemy

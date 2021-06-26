@@ -14,7 +14,7 @@ export function Projectile(){
 // Functions of object (Class)
 Projectile.prototype.draw = draw;
 Projectile.prototype.update = update;
-Projectile.prototype.moveForward = moveForward;
+Projectile.prototype.move = move;
 Projectile.prototype.destroyProjectile = destroyProjectile;
 
 Projectile.prototype.updateHitBox = updateHitBox;
@@ -25,7 +25,7 @@ Projectile.prototype.getHitBoxBottomY = getHitBoxBottomY;
 
 // ----------- Functions of object (Class) -----------
 export function draw(canvasContext){
-    canvasContext.fillStyle = "green";
+    canvasContext.fillStyle = this.colour;
     canvasContext.save(); // Save the current coordinate systen
     canvasContext.translate(this.posX, this.posY); // Translate the coordinate system origin to be at (posX, posY)
     canvasContext.rotate(this.angle); // Rotate the coordinate system
@@ -48,16 +48,16 @@ export function draw(canvasContext){
 }
 
 export function update(){
-    this.moveForward();
+    this.move();
     this.updateHitBox();
     this.checkEnemyCollision(); // ABSTRACT METHOD
 }
 
-function moveForward(){
+function move(){
     var cos = Math.cos(Math.PI/2-this.angle);
     var sin = Math.sin(Math.PI/2-this.angle);
     this.posX += cos*this.speed;
-    this.posY -= sin*this.speed; // (Subtracting since going up reduces the y value in this coordinate system)
+    this.posY -= sin*this.speed*this.dir; // (Subtracting since going up reduces the y value in this coordinate system)
 }
 
 function updateHitBox(){

@@ -1,9 +1,11 @@
 import { Player } from "../Entities/player.js";
+import {ProjectileEnemy} from "../Entities/Projectiles/projectile-enemy.js";
 import {ProjectileFriendly} from "../Entities/Projectiles/projectile-friendly.js";
 import {getGameAreaWidth, getGameAreaHeight} from "../main.js";
 
 // Attributes
 var friendlyProjectiles = [];
+var enemyProjectiles = [];
 
 /**
  * Adds a friendly projectile at position (`posX`, `posY`) with `angle`
@@ -13,6 +15,16 @@ var friendlyProjectiles = [];
  */
 export function addFriendlyProjectile(posX, posY, angle, speed){
     friendlyProjectiles.push(new ProjectileFriendly(posX, posY, angle, speed));
+}
+
+/**
+ * Adds an enemy projectile at position (`posX`, `posY`) with `angle`
+ * @param {number} posX 
+ * @param {number} posY 
+ * @param {number} angle 
+ */
+ export function addEnemyProjectile(posX, posY, angle, speed){
+    enemyProjectiles.push(new ProjectileEnemy(posX, posY, angle, speed));
 }
 
 /**
@@ -30,6 +42,10 @@ export function draw(canvasContext){
     for(i = 0; i < friendlyProjectiles.length; i++){
         friendlyProjectiles[i].draw(canvasContext);
     }
+    
+    for(i = 0; i < enemyProjectiles.length; i++){
+        enemyProjectiles[i].draw(canvasContext);
+    }
 }
 
 /**
@@ -43,6 +59,10 @@ export function update(){
     for(i = 0; i < friendlyProjectiles.length; i++){
         friendlyProjectiles[i].update();
     }
+
+    for(i = 0; i < enemyProjectiles.length; i++){
+        enemyProjectiles[i].update();
+    }
 }
 
 /**
@@ -51,6 +71,7 @@ export function update(){
  */
 export function reset(){
     friendlyProjectiles = [];
+    enemyProjectiles = [];
 }
 
 /**
@@ -70,6 +91,15 @@ function checkOutOfBoundProjectiles(){
             friendlyProjectiles[i].destroyProjectile();
         }
     }
+
+    for(i = 0; i < enemyProjectiles.length; i++){
+        var x = enemyProjectiles[i].posX;
+        var y = enemyProjectiles[i].posY;
+
+        if(x < 0 || x > gameAreaWidth || y < 0 || y > gameAreaHeight){
+            enemyProjectiles[i].destroyProjectile();
+        }
+    }
 }
 
 /**
@@ -80,6 +110,7 @@ function removeDestroyedProjectiles(){
     // Remove friendly projectiles
     var i;
     var tempFriendlyProjectiles = [];
+    var tempEnemyProjectiles = [];
 
     for(i = 0; i < friendlyProjectiles.length; i++){
         if(!friendlyProjectiles[i].isDestroyed){
@@ -87,4 +118,11 @@ function removeDestroyedProjectiles(){
         }
     }
     friendlyProjectiles = tempFriendlyProjectiles;
+
+    for(i = 0; i < enemyProjectiles.length; i++){
+        if(!enemyProjectiles[i].isDestroyed){
+            tempEnemyProjectiles.push(enemyProjectiles[i]);
+        }
+    }
+    enemyProjectiles = tempEnemyProjectiles;
 }

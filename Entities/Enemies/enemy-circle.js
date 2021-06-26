@@ -14,7 +14,9 @@ export function EnemyCircle(posX, posY, radius){
     this.defaultColour = "red"
     this.colour = this.defaultColour;
     this.isDestroyed = false;
-    this.maxHealth = 100;
+
+    // Enemy stats
+    this.maxHealth = 1;
     this.currentHealth = this.maxHealth;
     
     // Damage the enemy applies to the player

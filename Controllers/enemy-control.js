@@ -1,18 +1,18 @@
 import {EnemyCircle} from "/Entities/Enemies/enemy-circle.js";
 import {isExclusiveIntervals} from "/Utilities/math.js";
-import { Player } from "../Entities/player.js";
+import {Player} from "../Entities/player.js";
+import {EnemyCircleBoss} from "../Entities/Enemies/enemy-circle-boss.js";
 
 // Attributes
 var enemies = [];
 
 /**
- * Adds an EnemyCircle at position (`posX`, `posY`) with `radius`
+ * Adds an Enemy at position (`posX`, `posY`) with `radius`
  * @param {number} posX 
  * @param {number} posY 
- * @param {number} radius 
  */
-export function addEnemyCircle(posX, posY, radius){
-    enemies.push(new EnemyCircle(posX, posY, radius));
+export function addEnemy(enemy){
+    enemies.push(enemy);
 }
 
 /**
@@ -51,6 +51,7 @@ export function getEnemies(){
 
 export function spawn(){
     spawnCircleOfEnemies(300, 250, 250, 1, 10);
+    //spawnCircleBoss();
 }
 
 /**
@@ -102,7 +103,7 @@ function spawnCircleOfEnemies(centerX, centerY, radius, angleIncrement, enemyCir
 
         // Only add the enemy if it does not spawn on top of another enemy
         if(!(checkEnemyOccupiedArea(x+centerX, y+centerY, tempRadius))){
-            addEnemyCircle(x+centerX, y+centerY, tempRadius);
+            addEnemy(new EnemyCircle(x+centerX, y+centerY, tempRadius));
         }
 
         //tempRadius++;
@@ -111,6 +112,9 @@ function spawnCircleOfEnemies(centerX, centerY, radius, angleIncrement, enemyCir
     }
 }
 
+function spawnCircleBoss(){
+    addEnemy(new EnemyCircleBoss());
+}
 
 /**
  * Checks whether an enemy occupies an area defined by the circle with
